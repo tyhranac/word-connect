@@ -15,7 +15,7 @@ header {
     justify-content: center;
 
     width: 100vw;
-    height: 13%;
+    height: 5rem;
 }
 
 header > h1 {
@@ -30,9 +30,13 @@ main {
     justify-content: center;
 
     width: 100vw;
-    height: calc(100vh - 13%);
+    height: calc(100vh - 5rem);
 }
 
 main > table {
     width: 89%;
+}
+
+main > table td {
+    text-align: center;
 }
