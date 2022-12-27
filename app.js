@@ -32,6 +32,9 @@ for (let ir=0; ir<tableRows.length; ir++) {
     }
     let li = document.createElement('li');
     li.appendChild(document.createTextNode(words[ir]));
+    li.addEventListener('click', () => {
+        li.classList.toggle('word-crossed')
+    })
 
     if (ir < 7) {
         htmlWordList1.appendChild(li);

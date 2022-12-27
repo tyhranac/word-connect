@@ -59,3 +59,7 @@ main > table td {
     background-color: green;
     color: white;
 }
+
+.word-crossed {
+    text-decoration: line-through;
+}
