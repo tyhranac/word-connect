@@ -45,3 +45,52 @@ for (let ir=0; ir<tableRows.length; ir++) {
 }
 
 console.log(jsTable);
+
+
+// const checkLoc = (word, index, direction) => {
+
+// }
+
+
+const placeWord = (word, index) => {
+    let wordLength = word.length;
+    let x = index[1];
+    let y = index[0];
+    // check up
+    if (wordLength <= y) {
+        for (i=0; i<wordLength; i++) {
+            Array.from(tableRows[y-i].children)[x].innerText = word[i];
+        }
+    }
+    // check right
+    else if (wordLength <= (icmax - x)) {
+        for (i=0; i<wordLength; i++) {
+            Array.from(tableRows[y].children)[x+i].innerText = word[i];
+        }
+    }
+    // check down
+    else if (wordLength <= (irmax - y)) {
+        for (i=0; i<wordLength; i++) {
+            Array.from(tableRows[y+1].children)[x].innerText = word[i];
+        }
+    }
+    // check left
+    else if (wordLength <= (icmax - x)) {
+        for (i=0; i<wordLength; i++) {
+            Array.from(tableRows[y].children)[x+i].innerText = word[i];
+        }
+    }
+}
+
+const irmax = jsTable.length - 1;
+console.log(irmax);
+const icmax = jsTable[0].length - 1;
+console.log(icmax);
+
+for (wi=0; wi<words.length; wi++) {
+    // get random index
+    let index = [Math.floor(Math.random() * irmax), Math.floor(Math.random() * icmax)];
+    console.log(index);
+
+    placeWord(words[wi], index);
+}
