@@ -54,3 +54,8 @@ main > table td {
     text-align: center;
     border: solid black 1px;
 }
+
+.letter-selected {
+    background-color: green;
+    color: white;
+}
