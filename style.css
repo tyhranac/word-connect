@@ -35,8 +35,12 @@ main {
 
 main > table {
     width: 89%;
+    border: solid black 3px;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 main > table td {
     text-align: center;
+    border: solid black 1px;
 }
