@@ -117,11 +117,13 @@ const placeWord = (word, index) => {
 
 const placeWords = (wordsList) => {
     for (let wi=0; wi<wordsList.length; wi++) {
-        // get random index
-        let index = [Math.floor(Math.random() * irmax), Math.floor(Math.random() * icmax)];
-        console.log(index);
+        let placed = false;
         
-        placeWord(wordsList[wi], index);
+        while (!placed) {
+            let index = [Math.floor(Math.random() * irmax), Math.floor(Math.random() * icmax)];
+            console.log(index);
+            placed = placeWord(wordsList[wi], index);
+        }
     }
 }
 
