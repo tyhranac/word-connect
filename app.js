@@ -137,3 +137,34 @@ console.log(icmax);
 let placedWords = new Set();
 
 placeWords(words);
+
+
+const shuffle = () => {
+    // remove any td highlights
+    const tds = document.querySelectorAll('td');
+    for (let tdi=0; tdi<tds.length; tdi++) {
+        tds[tdi].classList.remove('letter-selected');
+    }
+
+    // remove any li strikethroughs
+    const lis = document.querySelectorAll('li');
+    for (let lii=0; lii<lis.length; lii++) {
+        lis[lii].classList.remove('word-crossed');
+    }
+
+    // reset letters
+    for (let ir=0; ir<tableRows.length; ir++) {
+        let tableRow = Array.from(tableRows[ir].children);
+        for (let ic=0; ic<tableRow.length; ic++) {
+            tableRow[ic].innerText = alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+    }
+
+    // reset place words list for replacement
+    placedWords.clear();
+
+    // place words again
+    placeWords(words);
+}
+
+shuffleBtn.addEventListener('click', shuffle);
