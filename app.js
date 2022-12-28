@@ -15,20 +15,13 @@ const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
 // convert html collection to array
 const tableRows = Array.from(htmlTable.rows);
 
-// populate table
-let jsTable = Array();
-
 for (let ir=0; ir<tableRows.length; ir++) {
     let tableRow = Array.from(tableRows[ir].children);
     for (let ic=0; ic<tableRow.length; ic++) {
         tableRow[ic].addEventListener('click', () => {
             tableRow[ic].classList.toggle('letter-selected')
         })
-        if (typeof words[ir][ic] !== 'undefined') {
-            tableRow[ic].innerText = words[ir][ic];
-        } else {
-            tableRow[ic].innerText = alphabet[Math.floor(Math.random() * alphabet.length)];
-        }
+        tableRow[ic].innerText = alphabet[Math.floor(Math.random() * alphabet.length)];
     }
     let li = document.createElement('li');
     li.appendChild(document.createTextNode(words[ir]));
@@ -41,15 +34,38 @@ for (let ir=0; ir<tableRows.length; ir++) {
     } else {
         htmlWordList2.appendChild(li);
     }
-    jsTable.push(tableRow);
 }
 
-console.log(jsTable);
 
+const checkPlace = (wordLength, x, y, direction) => {
+    let canPlace = true;
 
-// const checkLoc = (word, index, direction) => {
-
-// }
+    for (let pi=0; pi<wordLength; pi++) {
+        switch (direction) {
+            case 'up':
+                if (placedWords.has([y-pi, x].toString())) {
+                    canPlace = false;
+                }
+                break;
+            case 'right':
+                if (placedWords.has([y, x+pi].toString())) {
+                    canPlace = false;
+                }
+                break;
+            case 'down':
+                if (placedWords.has([y+pi, x].toString())) {
+                    canPlace = false;
+                }
+                break;
+            case 'left':
+                if (placedWords.has([y, x-pi].toString())) {
+                    canPlace = false;
+                }
+                break;
+        }
+    }
+    return canPlace;
+}
 
 
 const placeWord = (word, index) => {
@@ -57,40 +73,63 @@ const placeWord = (word, index) => {
     let x = index[1];
     let y = index[0];
     // check up
-    if (wordLength <= y) {
-        for (i=0; i<wordLength; i++) {
+    if ((wordLength <= y) && checkPlace(wordLength, x, y, 'up')) {
+        console.log(checkPlace(wordLength, x, y, 'up'));
+        for (let i=0; i<wordLength; i++) {
             Array.from(tableRows[y-i].children)[x].innerText = word[i];
+            placedWords.add([y-i, x].toString());
         }
+        return true;
     }
     // check right
-    else if (wordLength <= (icmax - x)) {
-        for (i=0; i<wordLength; i++) {
+    else if ((wordLength <= (icmax - x)) && checkPlace(wordLength, x, y, 'right')) {
+        console.log(checkPlace(wordLength, x, y, 'right'));
+        for (let i=0; i<wordLength; i++) {
             Array.from(tableRows[y].children)[x+i].innerText = word[i];
+            placedWords.add([y, x+i].toString());
         }
+        return true;
     }
     // check down
-    else if (wordLength <= (irmax - y)) {
-        for (i=0; i<wordLength; i++) {
-            Array.from(tableRows[y+1].children)[x].innerText = word[i];
+    else if ((wordLength <= (irmax - y)) && checkPlace(wordLength, x, y, 'down')) {
+        console.log(checkPlace(wordLength, x, y, 'down'));
+        for (let i=0; i<wordLength; i++) {
+            Array.from(tableRows[y+i].children)[x].innerText = word[i];
+            placedWords.add([y+i, x].toString());
         }
+        return true;
     }
     // check left
-    else if (wordLength <= (icmax - x)) {
+    else if ((wordLength <= x) && checkPlace(wordLength, x, y, 'left')) {
+        console.log(checkPlace(wordLength, x, y, 'left'));
         for (i=0; i<wordLength; i++) {
-            Array.from(tableRows[y].children)[x+i].innerText = word[i];
+            Array.from(tableRows[y].children)[x-i].innerText = word[i];
+            placedWords.add([y, x-i].toString());
         }
+        return true;
+    }
+    // could not place
+    else {
+        return false;
     }
 }
 
-const irmax = jsTable.length - 1;
-console.log(irmax);
-const icmax = jsTable[0].length - 1;
-console.log(icmax);
 
-for (wi=0; wi<words.length; wi++) {
-    // get random index
-    let index = [Math.floor(Math.random() * irmax), Math.floor(Math.random() * icmax)];
-    console.log(index);
-
-    placeWord(words[wi], index);
+const placeWords = (wordsList) => {
+    for (let wi=0; wi<wordsList.length; wi++) {
+        // get random index
+        let index = [Math.floor(Math.random() * irmax), Math.floor(Math.random() * icmax)];
+        console.log(index);
+        
+        placeWord(wordsList[wi], index);
+    }
 }
+
+
+const irmax = tableRows.length;
+console.log(irmax);
+const icmax = tableRows[0].children.length;
+console.log(icmax);
+let placedWords = new Set();
+
+placeWords(words);
