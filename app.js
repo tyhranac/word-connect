@@ -3,6 +3,8 @@ const htmlTable = document.querySelector('main > table');
 // get words list
 const htmlWordList1 = document.querySelector('.wl-first-half');
 const htmlWordList2 = document.querySelector('.wl-second-half');
+// get shuffle button
+const shuffleBtn = document.querySelector('#shuffle-btn');
 
 // define words
 const words = ['noel', 'merry', 'cheer', 'mistletoe', 'holly', 'santa', 'gifts',
